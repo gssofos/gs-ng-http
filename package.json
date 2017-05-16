@@ -12,7 +12,8 @@
   },
    "files": [
     "services/*",
-    "gs-http.module.ts"
+    "gs-http.module.ts",
+    "tsconfig.json"
   ],
   "author": "",
   "license": "ISC",
