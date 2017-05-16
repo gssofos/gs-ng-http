@@ -46,16 +46,17 @@ export class GsHttpApiService {
 
 
 
-  public httpGET(path: string, responseType: 'text' | 'json' = 'text') {
+  public httpGET(params: { path: string, responseType?: 'text' | 'json' }) {
+    params.responseType = params.responseType || 'text';
 
-    switch (responseType) {
+    switch (params.responseType) {
       case 'text':
-        return this.http.get(`${this.api_url}${path}`, { headers: this.headers })
+        return this.http.get(`${this.api_url}${params.path}`, { headers: this.headers })
           .map(this.checkForError)
           .catch(err => Observable.throw(err))
           .map(this.getText).toPromise();
       case 'json':
-        return this.http.get(`${this.api_url}${path}`, { headers: this.headers })
+        return this.http.get(`${this.api_url}${params.path}`, { headers: this.headers })
           .map(this.checkForError)
           .catch(err => Observable.throw(err))
           .map(this.getJson).toPromise();
@@ -65,23 +66,33 @@ export class GsHttpApiService {
 
 
 
-  public httpPOST(path: string, body: any, responseType: 'text' | 'json' = 'text') {
+  public httpPOST(params: { path: string, body: any, headers?: any, responseType?: 'text' | 'json' }) {
 
-    switch (responseType) {
+    params.responseType = params.responseType || 'text';
+
+    let httpHeaders: Headers;
+    if (params.headers) {
+      let httpHeaders = new Headers();
+      Object.keys(params.headers).forEach(header => httpHeaders.set(header, params.headers[header]));
+    } else {
+      let httpHeaders = this.headers;
+    }
+
+    switch (params.responseType) {
       case 'text':
         return this.http.post(
-          `${this.api_url}${path}`,
-          JSON.stringify(body),
-          { headers: this.headers }
+          `${this.api_url}${params.path}`,
+          JSON.stringify(params.body),
+          { headers: httpHeaders }
         )
           .map(this.checkForError)
           .catch(err => Observable.throw(err))
           .map(this.getText).toPromise();
       case 'json':
         return this.http.post(
-          `${this.api_url}${path}`,
-          JSON.stringify(body),
-          { headers: this.headers }
+          `${this.api_url}${params.path}`,
+          JSON.stringify(params.body),
+          { headers: httpHeaders }
         )
           .map(this.checkForError)
           .catch(err => Observable.throw(err))
