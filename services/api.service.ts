@@ -46,18 +46,18 @@ export class GsHttpApiService {
 
 
 
-  public httpGET(params: { path?: string, responseType?: 'text' | 'json' }) {
+  public httpGET(params: { url?: string, responseType?: 'text' | 'json' }) {
     params.responseType = params.responseType || 'text';
-    params.path = params.path || '';
+    params.url = params.url || '';
 
     switch (params.responseType) {
       case 'text':
-        return this.http.get(`${this.api_url}${params.path}`, { headers: this.headers })
+        return this.http.get(`${this.api_url}${params.url}`, { headers: this.headers })
           .map(this.checkForError)
           .catch(err => Observable.throw(err))
           .map(this.getText).toPromise();
       case 'json':
-        return this.http.get(`${this.api_url}${params.path}`, { headers: this.headers })
+        return this.http.get(`${this.api_url}${params.url}`, { headers: this.headers })
           .map(this.checkForError)
           .catch(err => Observable.throw(err))
           .map(this.getJson).toPromise();
@@ -67,10 +67,10 @@ export class GsHttpApiService {
 
 
 
-  public httpPOST(params: { path?: string, body?: any, headers?: any, responseType?: 'text' | 'json' }) {
+  public httpPOST(params: { url?: string, body?: any, headers?: any, responseType?: 'text' | 'json' }) {
 
     params.responseType = params.responseType || 'text';
-    params.path = params.path || '';
+    params.url = params.url || '';
     params.body = params.body || '';
 
     let httpHeaders: Headers;
@@ -84,7 +84,7 @@ export class GsHttpApiService {
     switch (params.responseType) {
       case 'text':
         return this.http.post(
-          `${this.api_url}${params.path}`,
+          `${this.api_url}${params.url}`,
           JSON.stringify(params.body),
           { headers: httpHeaders }
         )
@@ -93,7 +93,7 @@ export class GsHttpApiService {
           .map(this.getText).toPromise();
       case 'json':
         return this.http.post(
-          `${this.api_url}${params.path}`,
+          `${this.api_url}${params.url}`,
           JSON.stringify(params.body),
           { headers: httpHeaders }
         )
