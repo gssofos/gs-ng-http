@@ -11,9 +11,8 @@
     "url": "git+https://github.com/gssofos/gs-ng-http.git"
   },
    "files": [
-    "lib/*",
-    "index.d.ts",
-    "index.ts"
+    "services/*",
+    "gs-http.module.ts"
   ],
   "author": "",
   "license": "ISC",
