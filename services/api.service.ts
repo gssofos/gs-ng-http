@@ -46,8 +46,9 @@ export class GsHttpApiService {
 
 
 
-  public httpGET(params: { path: string, responseType?: 'text' | 'json' }) {
+  public httpGET(params: { path?: string, responseType?: 'text' | 'json' }) {
     params.responseType = params.responseType || 'text';
+    params.path = params.path || '';
 
     switch (params.responseType) {
       case 'text':
@@ -66,9 +67,11 @@ export class GsHttpApiService {
 
 
 
-  public httpPOST(params: { path: string, body: any, headers?: any, responseType?: 'text' | 'json' }) {
+  public httpPOST(params: { path?: string, body?: any, headers?: any, responseType?: 'text' | 'json' }) {
 
     params.responseType = params.responseType || 'text';
+    params.path = params.path || '';
+    params.body = params.body || '';
 
     let httpHeaders: Headers;
     if (params.headers) {
